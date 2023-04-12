@@ -11,10 +11,10 @@ public class StreamExample {
             } catch (InterruptedException e) {
                 throw new RuntimeException(e);
             }
-            //Things inside map will not be printed if we remove terminal operation
+            //Map will not execute if we don't put any terminal operation
             System.out.println("Hello " +s);
             return s *2;
-        }).forEach(s-> System.out.println());
+        }).forEach(System.out::println);
 
         System.out.println("This ends here");
     }
