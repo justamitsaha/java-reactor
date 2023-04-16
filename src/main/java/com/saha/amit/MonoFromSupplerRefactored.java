@@ -6,12 +6,24 @@ import reactor.core.scheduler.Schedulers;
 
 public class MonoFromSupplerRefactored {
     public static void main(String[] args) {
-        getName();
-        getName().subscribeOn(Schedulers.boundedElastic());
-        getName().subscribe(
-                Util.onNext()
-        );
-        getName();
+        int i = 3;
+        switch (i) {
+            case 1:
+                getName();
+                getName();
+                break;
+            case 2:
+                getName();
+                getName().subscribe(
+                        Util.onNext()
+                );
+                getName();
+                break;
+            case 3:
+                getName();
+                getName().subscribeOn(Schedulers.boundedElastic());
+                getName();
+        }
     }
 
     public static Mono<String> getName() {
