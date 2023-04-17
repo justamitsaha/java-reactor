@@ -1,10 +1,10 @@
-package com.saha.amit;
+package com.saha.amit.mono;
 
 import com.saha.amit.util.Util;
 import reactor.core.publisher.Mono;
 import reactor.core.scheduler.Schedulers;
 
-public class MonoFromSupplerRefactored {
+public class E_MonoFromSupplerRefactored {
     public static void main(String[] args) {
         int i = 3;
         switch (i) {
@@ -21,8 +21,11 @@ public class MonoFromSupplerRefactored {
                 break;
             case 3:
                 getName();
-                getName().subscribeOn(Schedulers.boundedElastic());
+                getName()
+                        .subscribeOn(Schedulers.boundedElastic())
+                        .subscribe(Util.onNext());
                 getName();
+                Util.sleepSeconds(3);
         }
     }
 

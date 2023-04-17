@@ -1,8 +1,8 @@
-package com.saha.amit;
+package com.saha.amit.mono;
 
 import java.util.stream.Stream;
 
-public class StreamExample {
+public class A_StreamExample {
     public static void main(String[] args) {
         Stream<Integer> stream = Stream.of(1,2,3);
         stream.map(s->{

@@ -1,9 +1,9 @@
-package com.saha.amit;
+package com.saha.amit.mono;
 
 import com.saha.amit.util.Util;
 import reactor.core.publisher.Mono;
 
-public class MonoEmitEmptyError {
+public class D_MonoEmitEmptyError {
     public static void main(String[] args) {
         getUser(1).subscribe(
                 Util.onNext(),

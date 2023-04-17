@@ -1,9 +1,9 @@
-package com.saha.amit;
+package com.saha.amit.mono;
 
 import com.saha.amit.util.Util;
 import reactor.core.publisher.Mono;
 
-public class MonoJust {
+public class B_MonoJust {
     public static void main(String[] args) {
         Mono<Integer> mono = Mono.just(1);
         //If we don't subscribe to mono it will not execute
