@@ -7,9 +7,11 @@ import java.util.List;
 
 public class D_FlexRange {
     public static void main(String[] args) {
-        Flux<Integer> flux = Flux.range(5,10);
+        Flux<Integer> flux = Flux.range(5, 10);
         flux
-                .map(n-> Util.faker().superhero().name())
+                .log()
+                .map(n -> Util.faker().superhero().name())
+                .log()
                 .subscribe(
                         System.out::println
                 );
