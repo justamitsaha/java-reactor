@@ -1,9 +1,7 @@
-package com.saha.amit.flux;
+package com.saha.amit.b_flux;
 
 import com.saha.amit.util.Util;
 import reactor.core.publisher.Flux;
-
-import java.util.List;
 
 public class D_FlexRange {
     public static void main(String[] args) {

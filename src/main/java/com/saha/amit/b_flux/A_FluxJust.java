@@ -1,4 +1,4 @@
-package com.saha.amit.flux;
+package com.saha.amit.b_flux;
 
 import reactor.core.publisher.Flux;
 
