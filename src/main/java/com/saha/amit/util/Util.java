@@ -1,11 +1,13 @@
 package com.saha.amit.util;
 
 import com.github.javafaker.Faker;
+import org.reactivestreams.Subscriber;
 import reactor.core.publisher.Flux;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Consumer;
+
 
 public class Util {
 
@@ -55,6 +57,14 @@ public class Util {
                     sleepSeconds(1);
                     return FAKER.superhero().name();
                 });
+    }
+
+    public static Subscriber<Object> subscriber(){
+        return new DefaultSubscriber();
+    }
+
+    public static Subscriber<Object> subscriber(String name){
+        return new DefaultSubscriber(name);
     }
 
 }
