@@ -8,7 +8,7 @@ public class C_TakeOperator {
         Flux.range(1, 10).log().take(3).log()
                 .subscribe(System.out::println);
 
-        //Problem with create is that it will continue to emit even subscription is cancelled
+        //Problem with create is that it will continue to emit even subscription is cancelled, so we have to add a condition for fluxSink.isCancelled()
 
         Flux.create(fluxSink -> {
             String country = Util.faker().country().name();

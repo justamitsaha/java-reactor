@@ -7,10 +7,11 @@ public class D_FluxGenerate {
     public static void main(String[] args) {
         Flux.generate(synchronousSink -> {
             String country = Util.faker().country().name();
-            do {
-                synchronousSink.next(country);
-            } while (country.equalsIgnoreCase("INDIA"));
-            synchronousSink.complete();
-        }).log().take(3).log().subscribe(Util.onNext());
+            synchronousSink.next(country);
+            // more than one call in generate won't work, it executes same value again and again
+            //synchronousSink.next(country);
+            if (country.equalsIgnoreCase("INDIA"))
+                synchronousSink.complete();
+        }).subscribe(Util.onNext());
     }
 }
