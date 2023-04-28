@@ -3,7 +3,7 @@ package com.saha.amit.operator;
 import com.saha.amit.util.Util;
 import reactor.core.publisher.Flux;
 
-public class Handel {
+public class A_Handel {
     public static void main(String[] args) {
         Flux.range(1, 20)
                 .handle((integer, synchronousSink) -> {
