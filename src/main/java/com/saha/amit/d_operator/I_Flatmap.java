@@ -1,7 +1,7 @@
-package com.saha.amit.operator;
+package com.saha.amit.d_operator;
 
-import com.saha.amit.operator.helper.OrderService;
-import com.saha.amit.operator.helper.UserService;
+import com.saha.amit.d_operator.helper.OrderService;
+import com.saha.amit.d_operator.helper.UserService;
 import com.saha.amit.util.Util;
 
 public class I_Flatmap {
