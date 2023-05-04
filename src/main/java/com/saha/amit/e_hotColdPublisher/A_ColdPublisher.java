@@ -8,7 +8,7 @@ import java.util.stream.Stream;
 
 public class A_ColdPublisher {
 
-    //Cold publisher when new publisher joins it receives new data from start
+    //Cold publisher when new subscriber joins it receives new data from start no concept of missing out as the publishing has started by some other subscriber
     public static void main(String[] args) {
         Flux<String> movieStream = Flux.fromStream(() -> getMovie())
                 .delayElements(Duration.ofSeconds(1));
