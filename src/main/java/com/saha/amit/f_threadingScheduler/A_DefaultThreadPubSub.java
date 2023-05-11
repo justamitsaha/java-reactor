@@ -6,6 +6,7 @@ import reactor.core.publisher.Flux;
 public class A_DefaultThreadPubSub {
     public static void main(String[] args) {
 
+        //Everything executed in main thread
         Flux<Object> flux = Flux.create(fluxSink -> {
                     printThreadName("create");
                     fluxSink.next(1);
