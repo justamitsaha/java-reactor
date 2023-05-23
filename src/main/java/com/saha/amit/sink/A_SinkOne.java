@@ -7,7 +7,7 @@ import reactor.core.publisher.Sinks;
 public class A_SinkOne {
     public static void main(String[] args) {
         //Sink has 2 parts one emits one subscribes
-        Sinks.One<Object> sink = Sinks.one(); // From this we will emit
+        Sinks.One<Object> sink = Sinks.one(); // From this we will emit a mono type of object
         Mono<Object> mono = sink.asMono();  //From this we will subscribe
 
         mono.subscribe(Util.subscriber("BOBO"));
@@ -24,7 +24,7 @@ public class A_SinkOne {
             //Below will execute in case of an error like here when we are trying to emit multiple values
             System.out.println("signalType2 "+signalType.name());
             System.out.println("emitResult2 "+emitResult.name());
-            return false;  // true will retry in case of error
+            return false;  // Based on the value of signalType and emitResult we can decide to return true of false which determines if we want to retry or not
         });
     }
 }
