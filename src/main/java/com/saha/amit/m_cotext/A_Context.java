@@ -16,7 +16,7 @@ public class A_Context {
     private static Mono<String> getWelcomeMessage() {
         return Mono.deferContextual(contextView -> {
            if (contextView.hasKey("user")){
-               return Mono.just("Welcome "+ contextView.get("user"));
+               return Mono.just("Welcome: "+ contextView.get("user"));
            } else {
                return Mono.error(new RuntimeException("Un-authenticated"));
            }
