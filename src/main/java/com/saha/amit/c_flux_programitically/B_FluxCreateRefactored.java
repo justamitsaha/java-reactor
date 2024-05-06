@@ -14,7 +14,7 @@ public class B_FluxCreateRefactored {
                 .delayElements(Duration.ofMillis(500))
                 .subscribe(System.out::println);
 
-        //This is when flux will emit as next method is called here
+        //This is when flux will emit, as the next method is called in produce
         fluxSinkProducer.produce();
         Util.sleepSeconds(12);
     }

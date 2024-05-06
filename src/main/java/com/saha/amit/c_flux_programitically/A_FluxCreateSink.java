@@ -24,7 +24,7 @@ public class A_FluxCreateSink {
                 fluxSink.next(count + "--> " + countryName);
                 count++;
             } while (!countryName.trim().equalsIgnoreCase("india"));
-            fluxSink.complete();
+            fluxSink.complete();            // send complete signal when india is received
         }).subscribe(System.out::println);
 
 
