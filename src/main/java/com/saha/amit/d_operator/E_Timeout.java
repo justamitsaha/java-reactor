@@ -14,7 +14,9 @@ public class E_Timeout {
         Util.sleepSeconds(7);
 
     }
-
+    
+    /*This method takes 2 seconds to emit but there is a timeout of 1 seconds
+    So it will go to fallback method*/
     public static Flux<Integer> getOrderNumber() {
         return Flux.range(1, 5)
                 .delayElements(Duration.ofSeconds(2));
