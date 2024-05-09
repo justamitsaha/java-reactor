@@ -3,6 +3,13 @@ package com.saha.amit.d_operator;
 import com.saha.amit.util.Util;
 import reactor.core.publisher.Flux;
 
+/*
+If the source is not emmiting any signle data then we can take user to
+1- defaultIfEmpty --> Returns default value
+2- switchIfEmpty  --> Call a fallback method to return the response
+But both will take effect only when source is not emmiting any data
+One good use case redis cache if empty
+*/
 public class F_IfEmpty {
     public static void main(String[] args) {
         getOrderNumber()
