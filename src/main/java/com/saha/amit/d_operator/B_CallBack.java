@@ -24,7 +24,7 @@ public class B_CallBack {
                 .doOnNext(o -> System.out.println("doOnNext : " + o))  // This will execute every time before publisher executes next
                 .doOnComplete(() -> System.out.println("doOnComplete"))  // only when there is no error
                 .doOnError(err -> System.out.println("doOnError : " + err.getMessage()))  //when there is an error
-                .doOnTerminate(() -> System.out.println("doOnTerminate"))  // After oncomplete/ error everytime except when take is called
+                .doOnTerminate(() -> System.out.println("doOnTerminate"))  // After on complete/ error everytime except when take is called
                 .doOnCancel(() -> System.out.println("doOnCancel"))     // When subscriber cancels like take()
                 .doFinally(signal -> System.out.println("doFinally 1 : " + signal))  //Everytime
                 .doOnDiscard(Object.class, o -> System.out.println("doOnDiscard : " + o))  // in case of take operation discarded elements

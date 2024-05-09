@@ -18,18 +18,5 @@ public class D_Delay {
                 .delayElements(Duration.ofSeconds(1))
                 .subscribe(Util.subscriber());
 
-        Flux.range(1, 10)
-                .log()
-                .map(i -> 10 / (5 - i))
-//                .onErrorReturn(-1)                // returns default value of -1 in case of error
-//                .onErrorResume(e -> fallback())   // implements fallback method to handel exception
-                .onErrorContinue((err,obj)->{       // Takes 2 parameter error and the actual object
-                    System.out.println("Error"+ err +" for "+ obj);//Handeles exception and continues exception
-                })
-                .subscribe(Util.subscriber());
-
-    }
-    private static Mono<Integer> fallback(){
-        return Mono.fromSupplier(() -> Util.faker().random().nextInt(100, 200));
     }
 }

@@ -6,13 +6,20 @@ import reactor.core.publisher.Flux;
 
 import java.util.function.Function;
 
-public class H_SwitchOnFirst {
+/*
+Switch on first will sit between publisher and subscriber, and it will get the first item.
+On the basis of the first item it can check any condition e.g. format and take decision
+weather to emit the item or  route it to process it differently
+If first item is ok it will not check other items,
+If first item is not passing condition it will check all items
+ */
+public class I_SwitchOnFirst {
 
     public static void main(String[] args) {
 
         getPerson()
                 .switchOnFirst((signal, personFlux) -> {
-                    return signal.isOnNext() && signal.get().getAge() > 18 ? personFlux : applyFilterMap().apply(personFlux);
+                    return signal.isOnNext() && signal.get().getAge() > 10 ? personFlux : applyFilterMap().apply(personFlux);
                 })
                 .subscribe(Util.subscriber());
 

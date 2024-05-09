@@ -7,11 +7,11 @@ import reactor.core.publisher.Flux;
 import java.util.function.Function;
 
 /*
-It helps to build recuable code in our pipeline
-For example we have a reducdant code in multiple pipeline
-We can build the custom logic in a functiona and call them in different pipeline using transform
+It helps to build reusable code in our pipeline
+For example we have a reusable code in multiple pipeline
+We can build the custom logic in a function and call them in different pipeline using transform
 */
-public class G_Transform {
+public class H_Transform {
     public static void main(String[] args) {
 
         getPerson()
