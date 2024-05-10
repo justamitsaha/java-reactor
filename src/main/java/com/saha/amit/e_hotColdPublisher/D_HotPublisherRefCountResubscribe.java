@@ -18,7 +18,7 @@ public class D_HotPublisherRefCountResubscribe {
         movieStream.subscribe(Util.subscriber("JHOLU"));
 
         //As ref count is 1 it emits on 1st subscription then thread waits meanwhile the 1st subscription end
-        //So when new subscription is received it is a new subscription from beginning and subscriber doesn't miss out
+        //So when new subscription is  received it is a new subscription from beginning and subscriber doesn't miss out
         Util.sleepSeconds(10);
         movieStream.subscribe(Util.subscriber("LOLU"));
         Util.sleepSeconds(10);
