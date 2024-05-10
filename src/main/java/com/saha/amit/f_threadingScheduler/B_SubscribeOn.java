@@ -4,19 +4,29 @@ import com.saha.amit.util.Util;
 import reactor.core.publisher.Flux;
 import reactor.core.scheduler.Schedulers;
 
+/*Instead of manually create thread we can rely on Reactor framework to create thread for us
+This can be done using subscribeOn for subscribers(upstream) whihc takes a Scheduler instance
+For this we can use factory methods
+1>Schedulers.boundedElastic() --> For Network/Time consuming taks, can spawn multiple thread,
+    Say the CPU has 4 cores can create 40 threads
+2>Schedulers.parallel() --> CPU intensive tasks, one thread per CPU
+3>Schedulers.single() --> Single dedicated thread for one off tasks
+4>Schedulers.immidiate() --> current thread
+If you are not sure which one to use use boundedElastic()
+*/
 public class B_SubscribeOn {
     public static void main(String[] args) {
 
         Flux<Object> flux = Flux.create(fluxSink -> {
-                    printThreadName("create");
+                    printThreadName("create");                  //In new thread
                     fluxSink.next(1);
                 })
-                .doOnNext(i -> printThreadName("next " + i));
+                .doOnNext(i -> printThreadName("next " + i));   //In new thread
 
         flux
-                .doFirst(() -> printThreadName("doFirst2"))
-                .subscribeOn(Schedulers.boundedElastic())
-                .doFirst(() -> printThreadName("doFirst1"))
+                .doFirst(() -> printThreadName("doFirst2"))     //In new thread
+                .subscribeOn(Schedulers.boundedElastic())       //After this in new thread
+                .doFirst(() -> printThreadName("doFirst1"))     //This will be in main thread
                 .subscribe(s -> printThreadName("sub " + s));
 
         Util.sleepSeconds(5);
