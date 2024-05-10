@@ -5,7 +5,8 @@ import reactor.core.publisher.Flux;
 
 import java.time.Duration;
 import java.util.stream.Stream;
-/*Here getMovie is a Hot publisher like a movie theatre, when first subscriber joins*/
+/*Here getMovie is a Hot publisher like a movie theatre, when first subscriber joins it starts emitting
+It is achieved by adding share() method to Publisher*/
 public class B_HotPublisherShared {
     public static void main(String[] args) {
 
@@ -14,11 +15,11 @@ public class B_HotPublisherShared {
                 .delayElements(Duration.ofSeconds(1))
                 .share();
 
-        movieStream.subscribe(Util.subscriber("JHOLU"));
+        movieStream.subscribe(Util.subscriber("JHOLU")); // When this joins it starts publishing
         Util.sleepSeconds(2);
-        movieStream.subscribe(Util.subscriber("BHOLU"));
+        movieStream.subscribe(Util.subscriber("BHOLU")); // This subscciber misses some data
         Util.sleepSeconds(2);
-        movieStream.subscribe(Util.subscriber("LOLU"));
+        movieStream.subscribe(Util.subscriber("LOLU"));  // This subscciber misses some more data
         Util.sleepSeconds(10);
 
     }
