@@ -5,7 +5,7 @@ import reactor.core.publisher.Flux;
 
 import java.time.Duration;
 import java.util.stream.Stream;
-
+/*Here getMovie is a Hot publisher like a movie theatre, when first subscriber joins*/
 public class B_HotPublisherShared {
     public static void main(String[] args) {
 

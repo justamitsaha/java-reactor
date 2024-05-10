@@ -7,17 +7,17 @@ import java.time.Duration;
 import java.util.stream.Stream;
 
 public class A_ColdPublisher {
-
-    //Cold publisher when new subscriber joins it receives new data from start no concept of missing out as the publishing has started by some other subscriber
+    /*getMovie  is like a cold publisher like Netflix streaming , when ever anyone wants to see movie they subscribe, and it starts publishing for each subscriber
+    Cold publisher when new subscriber joins it receives new data from start no concept of missing out as the publishing has started by some other subscriber*/
     public static void main(String[] args) {
-        Flux<String> movieStream = Flux.fromStream(() -> getMovie())
+        Flux<String> movieStream = Flux.fromStream(A_ColdPublisher::getMovie)
                 .delayElements(Duration.ofSeconds(1));
 
-        movieStream.subscribe(Util.subscriber("JHOLU"));
+        movieStream.subscribe(Util.subscriber("JHOLU"));        // Each will get stream separately from beginning
         Util.sleepSeconds(2);
-        movieStream.subscribe(Util.subscriber("BHOLU"));
+        movieStream.subscribe(Util.subscriber("BHOLU"));        // Each will get stream separately from beginning
         Util.sleepSeconds(2);
-        movieStream.subscribe(Util.subscriber("LOLU"));
+        movieStream.subscribe(Util.subscriber("LOLU"));         // Each will get stream separately from beginning
         Util.sleepSeconds(10);
     }
 
