@@ -6,6 +6,9 @@ import reactor.core.publisher.Flux;
 import java.time.Duration;
 import java.util.stream.Stream;
 
+/* With auto connect option publisher will start emitting even when there is no subscriber
+And once the publisher completes it will not publish again even if some one new joins
+*/
 public class E_HotPublisherAutoConnect {
     public static void main(String[] args) {
 
@@ -13,16 +16,15 @@ public class E_HotPublisherAutoConnect {
                 .delayElements(Duration.ofSeconds(1))
                 .publish()
                 .autoConnect(0);
-                //.autoConnect(1);
+                //.autoConnect(1);      // with autoConnect(1) first subscriber won't miss
 
-        //With hot subscriber streaming will start even without any subscription as minimum Subscriber is 0
+        
         Util.sleepSeconds(2);
-        movieStream.subscribe(Util.subscriber("JHOLU"));
+        movieStream.subscribe(Util.subscriber("JHOLU"));    // Publisher has started so it will missout on few items
 
-        //With auto connect it will not allow 2nd subscriber to re-subscribe after 1sr subscription has ended
         Util.sleepSeconds(10);
-        movieStream.subscribe(Util.subscriber("LOLU"));
-        Util.sleepSeconds(10);
+        System.out.println("Subsciber2 about to subscribe")
+        movieStream.subscribe(Util.subscriber("LOLU"));     // This is miss out on all data as publisher has completed
 
     }
 
