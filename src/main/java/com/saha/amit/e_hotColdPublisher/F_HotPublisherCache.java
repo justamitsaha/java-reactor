@@ -5,21 +5,26 @@ import reactor.core.publisher.Flux;
 
 import java.time.Duration;
 import java.util.stream.Stream;
-
+/* With cache the publisher will cache the enire response and provide to subscriber after the streaming ends
+It will work even if we keep the publish() i.e. hot publisher and autoconect() i.e. not allowing new subscribption
+Cache will store till Long.MAX_VALUE however we can override that by passing an numeric value
+cache(2) will mean it will cache last 2 values from stream
+*/
 public class F_HotPublisherCache {
     public static void main(String[] args) {
 
         Flux<String> movieStream = Flux.fromStream(() -> getMovie())
                 .delayElements(Duration.ofSeconds(1))
+                .publish()
+                .autoConnect(0)
                 .cache();
-        //This will cache the entire response and returns to next elements
-        //cache(2) will return only 2 elements
+                //.cache(2); //we can tell how many items to cache
 
-
-        movieStream.subscribe(Util.subscriber("JHOLU"));
+        Util.sleepSeconds(2);
+        movieStream.subscribe(Util.subscriber("JHOLU"));    // Will get items from beginning
 
         Util.sleepSeconds(10);
-        movieStream.subscribe(Util.subscriber("LOLU"));
+        movieStream.subscribe(Util.subscriber("LOLU"));     // Will get all items at once enen though subscription has ended
         Util.sleepSeconds(10);
 
     }
