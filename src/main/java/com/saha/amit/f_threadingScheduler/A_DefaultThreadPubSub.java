@@ -2,7 +2,8 @@ package com.saha.amit.f_threadingScheduler;
 
 import com.saha.amit.util.Util;
 import reactor.core.publisher.Flux;
-
+/* Here we see that by default both pushlisher and subscriber is running in same thread
+*/
 public class A_DefaultThreadPubSub {
     public static void main(String[] args) {
 
@@ -12,10 +13,11 @@ public class A_DefaultThreadPubSub {
                     fluxSink.next(1);
                 })
                 .doOnNext(i -> printThreadName("next " + i));
-
         flux.subscribe(s->printThreadName("sub"+ s));
-        Runnable runnable = () -> flux.subscribe(v -> printThreadName("sub " + v));
 
+        // Forcing it to run on different thread both publiher i.e. Flux create above and subscriber below 
+        // are not on main thread
+        Runnable runnable = () -> flux.subscribe(v -> printThreadName("sub " + v));
         for (int i = 0; i < 2; i++) {
             new Thread(runnable).start();
         }
