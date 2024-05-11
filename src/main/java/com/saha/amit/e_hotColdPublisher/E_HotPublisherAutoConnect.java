@@ -7,7 +7,7 @@ import java.time.Duration;
 import java.util.stream.Stream;
 
 /* With auto connect option publisher will start emitting even when there is no subscriber
-And once the publisher completes it will not publish again even if some one new joins
+And once the publisher completes it will not publish again even if someone new joins
 */
 public class E_HotPublisherAutoConnect {
     public static void main(String[] args) {
@@ -20,10 +20,10 @@ public class E_HotPublisherAutoConnect {
 
         
         Util.sleepSeconds(2);
-        movieStream.subscribe(Util.subscriber("JHOLU"));    // Publisher has started so it will missout on few items
+        movieStream.subscribe(Util.subscriber("JHOLU"));    // Publisher has started, so it will miss out on few items
 
         Util.sleepSeconds(10);
-        System.out.println("Subsciber2 about to subscribe")
+        System.out.println("Subsciber2 about to subscribe");
         movieStream.subscribe(Util.subscriber("LOLU"));     // This is miss out on all data as publisher has completed
 
     }

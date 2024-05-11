@@ -4,9 +4,9 @@ import com.saha.amit.util.Util;
 import reactor.core.publisher.Flux;
 import reactor.core.scheduler.Schedulers;
 
-/*In case of multiple subscribeOn the one closer to Source takes presedence
+/*In case of multiple subscribeOn the one closer to Source takes precedence
 Say I am the developer of the Publisher and I know better which thread model to use
-I don't want others to overwrite my work hence the one I have written closer to source will take presedednce
+I don't want others to overwrite my work hence the one I have written closer to source will take precedence
 */
 public class C_MultipleSubscribeOn {
     public static void main(String[] args) {

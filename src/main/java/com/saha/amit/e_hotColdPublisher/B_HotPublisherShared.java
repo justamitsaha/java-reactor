@@ -17,9 +17,9 @@ public class B_HotPublisherShared {
 
         movieStream.subscribe(Util.subscriber("JHOLU")); // When this joins it starts publishing
         Util.sleepSeconds(2);
-        movieStream.subscribe(Util.subscriber("BHOLU")); // This subscciber misses some data
+        movieStream.subscribe(Util.subscriber("BHOLU")); // This subscriber misses some data
         Util.sleepSeconds(2);
-        movieStream.subscribe(Util.subscriber("LOLU"));  // This subscciber misses some more data
+        movieStream.subscribe(Util.subscriber("LOLU"));  // This subscriber misses some more data
         Util.sleepSeconds(10);
 
     }

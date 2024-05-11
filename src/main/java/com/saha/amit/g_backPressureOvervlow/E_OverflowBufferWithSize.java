@@ -16,7 +16,7 @@ public class E_OverflowBufferWithSize {
                     }
                     fluxSink.complete();
                 })
-                .onBackpressureBuffer(20)
+                .onBackpressureBuffer(20)               // We can pass buffer size
                 .publishOn(Schedulers.boundedElastic())
                 .doOnNext(i -> {
                     Util.sleepMillis(10);

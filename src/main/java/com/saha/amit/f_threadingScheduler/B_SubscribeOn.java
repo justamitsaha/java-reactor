@@ -5,14 +5,14 @@ import reactor.core.publisher.Flux;
 import reactor.core.scheduler.Schedulers;
 
 /*Instead of manually create thread we can rely on Reactor framework to create thread for us
-This can be done using subscribeOn for subscribers(upstream) whihc takes a Scheduler instance
+This can be done using subscribeOn which is for publisher (upstream) which takes a Scheduler instance
 For this we can use factory methods
-1>Schedulers.boundedElastic() --> For Network/Time consuming taks, can spawn multiple thread,
+1>Schedulers.boundedElastic() --> For Network/Time consuming tasks, can spawn multiple thread,
     Say the CPU has 4 cores can create 40 threads
 2>Schedulers.parallel() --> CPU intensive tasks, one thread per CPU
-3>Schedulers.single() --> Single dedicated thread for one off tasks
-4>Schedulers.immidiate() --> current thread
-If you are not sure which one to use use boundedElastic()
+3>Schedulers.single() --> Single dedicated thread for one-off tasks
+4>Schedulers.immediate() --> current thread
+If you are not sure which one to use boundedElastic()
 */
 public class B_SubscribeOn {
     public static void main(String[] args) {

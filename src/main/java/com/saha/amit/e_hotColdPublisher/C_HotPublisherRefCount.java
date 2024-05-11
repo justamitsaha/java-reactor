@@ -6,7 +6,7 @@ import reactor.core.publisher.Flux;
 import java.time.Duration;
 import java.util.stream.Stream;
 /*
-Another way to create hot publisher is using publish mehod and refCount
+Another way to create hot publisher is using publish method and refCount
 publish method returns Connectable flux and ref count tells the number of
 subscribers need to join after which Publisher will start emitting
 For share method it was default as 1
