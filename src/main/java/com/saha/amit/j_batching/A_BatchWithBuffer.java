@@ -5,36 +5,43 @@ import reactor.core.publisher.Flux;
 
 import java.time.Duration;
 
+/*Suppose if we want to capture user click events and insert in DB we don't want to do DB insertion per click
+instead we want to do DB insertion in batches*/
 public class A_BatchWithBuffer {
-    //Suppose if we want to capture user click events and insert in DB we don't want to do DB insertion per click
-    // instead we want to do DB insertion in batches
+
     public static void main(String[] args) {
 
-//        eventStreamNormalSteadyLoad()
-//                .buffer(5)  // now it will return list of items instead of each item individually so that it can be processed in batches
-//                .subscribe(Util.subscriber());
-//        // If the load is less than it wil wait for buffer, so we can use duration
-//        eventStreamNormalSteadyLoad()
-//                .buffer(Duration.ofSeconds(2))  // now it will wait or a duration and all records in that period will be processed
-//                .subscribe(Util.subscriber());
-
-        //if the load is variable sometimes high sometimes low
-        eventStreamHighLoad()
-                .bufferTimeout(5, Duration.ofSeconds(2))  // now it will wait or a duration or buffer size which ever satisfies 
+        System.out.println("Streaming in batch of 5");
+        eventStreamNormalSteadyLoad()
+                .buffer(5)  // List of 5 events returned
                 .subscribe(Util.subscriber());
+        Util.sleepSeconds(5);
+
+        System.out.println("Streaming based on time");
+        eventStreamNormalSteadyLoad()
+                .buffer(Duration.ofSeconds(1))  // process all items produced in 1 seconds
+                .subscribe(Util.subscriber());
+        Util.sleepSeconds(5);
+
+        System.out.println("Streaming based on time and batch");
+        eventStreamHighLoad()
+                    .bufferTimeout(5, Duration.ofSeconds(2))  //both time and batch mentioned which ever satisfies first
+                .subscribe(Util.subscriber());
+
         Util.sleepSeconds(10);
-
     }
 
-    private static Flux<String> eventStreamNormalSteadyLoad(){
-        return Flux.interval(Duration.ofMillis(300))
+    private static Flux<String> eventStreamNormalSteadyLoad() {
+        return Flux.interval(Duration.ofMillis(100))
+                .take(25)
                 //.take(3)  //If items are less than the buffer size it will not block but return what it has
-                .map(i->"event"+ i);
+                .map(i -> "event" + i);
     }
 
-    private static Flux<String> eventStreamHighLoad(){
-        return Flux.interval(Duration.ofMillis(10))
-                .map(i->"event"+ i);
+    private static Flux<String> eventStreamHighLoad() {
+        return Flux.interval(Duration.ofMillis(Util.faker().random().nextInt(10,50)))
+                .take(25)
+                .map(i -> "event" + i);
     }
 
 }
