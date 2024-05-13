@@ -7,14 +7,14 @@ public class A_Repeat {
 
     public static void main(String[] args) {
         getInteger()
-                .repeat(2)
+                .repeat(2)                  //After complete will repeat 2 times
                 .subscribe(Util.subscriber());
     }
 
-    private static Flux<Integer> getInteger(){
-        return Flux.range(1,3)
-                .doOnSubscribe(s-> System.out.println("Subscribed 1"))
-                .doOnComplete(() -> System.out.println("Completed 2"));
+    private static Flux<String> getInteger() {
+        return Flux.just(Util.faker().howIMetYourMother().catchPhrase())
+                .doOnSubscribe(s -> System.out.println("Subscribed "))
+                .doOnComplete(() -> System.out.println("Completed"));
 
     }
 }
