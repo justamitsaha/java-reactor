@@ -1,18 +1,23 @@
 package com.saha.amit.a_mono;
 
+import com.saha.amit._CustomPublisherSubscriber.subcriber.SubscriberImpl;
 import com.saha.amit.util.Util;
 import reactor.core.publisher.Mono;
 
 public class B_MonoJust {
     public static void main(String[] args) {
-        Mono<Integer> mono = Mono.just(1);
-        //If we don't subscribe to mono it will not execute
-        System.out.println(mono);
-        //Different overloaded versions of subscribe
-        //Only success
-        mono.subscribe(System.out::println);
-        //Success, failure and error
-        mono.subscribe(
+        var mono = Mono.just("LOLO");
+
+        System.out.println(mono);   //If we don't subscribe to mono it will not execute
+
+        SubscriberImpl subscriber = new SubscriberImpl();
+       mono.subscribe(subscriber);
+       subscriber.getSubscription().request(10);
+
+
+        mono.subscribe(System.out::println);        //Only success
+
+        mono.subscribe(                                             //Success, failure and error
                 System.out::println,
                 System.out::println,
                 () -> System.out.println("completed")
