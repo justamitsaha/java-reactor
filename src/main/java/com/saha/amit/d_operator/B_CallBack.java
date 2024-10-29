@@ -6,30 +6,42 @@ import reactor.core.publisher.Flux;
 public class B_CallBack {
 
     public static void main(String[] args) {
+        System.out.println();
 
-        Flux.create(fluxSink -> {
-                    System.out.println("inside create");  //After doOnRequest
-                    for (int i = 0; i < 5; i++) {
+        //Code will execute from top to bottom but subscriber operations execute from bottom to top for eg. doFirst, doOnRequest,
+        Flux.<Integer>create(fluxSink -> {
+                   System.out.println("producer begins");
+                    for (int i = 0; i < 4; i++) {
                         fluxSink.next(i);
                     }
-                    // fluxSink.complete();
-                    fluxSink.error(new RuntimeException("oops"));
-                    System.out.println("--completed");
+                    fluxSink.complete();
+                    // fluxSink.error(new RuntimeException("oops"));
+                   System.out.println("producer ends");
                 })
-                .doFirst(() -> System.out.println("doFirst1")) //do first execute bottom to up so this executes after below doFirst
-                .doFirst(() -> System.out.println("doFirst2"))   //1st items that executes
-                .doOnSubscribe(s -> System.out.println("doOnSubscribe1" + s))  //next item before all do first
-                .doOnSubscribe(s -> System.out.println("doOnSubscribe2" + s))  //do On Subscribe executes top to bottom, so this executes 2nd
-                .doOnRequest(l -> System.out.println("doOnRequest : " + l))  //This will execute one time after that control will go to publisher
-                .doOnNext(o -> System.out.println("doOnNext : " + o))  // This will execute every time before publisher executes next
-                .doOnComplete(() -> System.out.println("doOnComplete"))  // only when there is no error
-                .doOnError(err -> System.out.println("doOnError : " + err.getMessage()))  //when there is an error
-                .doOnTerminate(() -> System.out.println("doOnTerminate"))  // After on complete/ error everytime except when take is called
-                .doOnCancel(() -> System.out.println("doOnCancel"))     // When subscriber cancels like take()
-                .doFinally(signal -> System.out.println("doFinally 1 : " + signal))  //Everytime
-                .doOnDiscard(Object.class, o -> System.out.println("doOnDiscard : " + o))  // in case of take operation discarded elements
-                .take(2)
-                .doFinally(signal -> System.out.println("doFinally 2 : " + signal))  // always executes
-                .subscribe(Util.subscriber());
+                .doOnComplete(() ->System.out.println("doOnComplete-1"))    //When producer sends complete signal, will not execute with error
+                .doFirst(() ->System.out.println("doFirst-1"))          //very first time before anything start between producer and subscriber
+                .doOnNext(item ->System.out.println("doOnNext-1 " +  item)) // For every item can mutate items
+                .doOnSubscribe(subscription ->System.out.println("doOnSubscribe-1 " +  subscription)) // When subscription object is passed downstream by publisher
+                .doOnRequest(request ->System.out.println("doOnRequest-1 " +  request)) // When downstream send request// this will have 2 due to take operation
+                .doOnError(error ->System.out.println("doOnError-1 " +  error.getMessage()))
+                .doOnTerminate(() ->System.out.println("doOnTerminate-1")) // complete or error case
+                .doOnCancel(() ->System.out.println("doOnCancel-1"))
+                .doOnDiscard(Object.class, o ->System.out.println("doOnDiscard-1 " +  o))  // When producer produced item but subscriber didn't received or it cancelled before receiving
+                .doFinally(signal ->System.out.println("doFinally-1 " +  signal)) // finally irrespective of the reason
+                 .take(2)
+                .doOnComplete(() ->System.out.println("doOnComplete-2"))
+                .doFirst(() ->System.out.println("doFirst-2"))
+                .doOnNext(item ->System.out.println("doOnNext-2 " +  item))
+                .doOnSubscribe(subscription ->System.out.println("doOnSubscribe-2 " +  subscription))
+                .doOnRequest(request ->System.out.println("doOnRequest-2 " +  request))
+                .doOnError(error ->System.out.println("doOnError-2 " +  error.getMessage()))
+                .doOnTerminate(() ->System.out.println("doOnTerminate-2")) // complete or error case
+                .doOnCancel(() ->System.out.println("doOnCancel-2"))
+                .doOnDiscard(Object.class, o ->System.out.println("doOnDiscard-2 " +  o))
+                .doFinally(signal ->System.out.println("doFinally-2 " +  signal)) // finally irrespective of the reason
+                //.take(4)
+                .subscribe(Util.subscriber("subscriber"));
+
+
     }
 }

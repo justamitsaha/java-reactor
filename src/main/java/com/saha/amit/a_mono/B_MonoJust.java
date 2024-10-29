@@ -15,21 +15,16 @@ public class B_MonoJust {
        subscriber.getSubscription().request(10);
 
 
+       /*
+       We don't have to request the no of items with request(n) method
+       like we do for custom  Subscriber as reactor framework does that for us
+        */
         mono.subscribe(System.out::println);        //Only success
 
         mono.subscribe(                                             //Success, failure and error
                 System.out::println,
                 System.out::println,
                 () -> System.out.println("completed")
-        );
-
-        Mono<Integer> mono2 = Mono.just("ball")
-                .map(s -> s.length()/0);
-        //If we don't handel error and error happens the exception will be thrown
-        mono2.subscribe(
-                Util.onNext(),
-                Util.onError(),
-                Util.onComplete()
         );
     }
 }

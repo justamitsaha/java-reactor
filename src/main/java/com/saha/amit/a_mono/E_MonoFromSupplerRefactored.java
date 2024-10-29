@@ -14,7 +14,7 @@ programing. We have to keep a sleep method at end to prevent current thread from
 thread on whihc the program is running will exit without letting subscribe complete  */
 public class E_MonoFromSupplerRefactored {
     public static void main(String[] args) {
-        int i = 3;
+        int i = 1;
         switch (i) {
             case 1:
                 getName();

@@ -12,7 +12,7 @@ public class C_MonoEmitEmptyError {
         );
     }
 
-    /*This method shows different result thT can be sent from Mono
+    /*This method shows different result which can be sent from Mono
     It can return
     result --> onNext and onComplete will execute
     empty  --> onComplete will execute
