@@ -5,6 +5,8 @@ import reactor.core.publisher.Flux;
 
 public class A_Repeat {
 
+    //Can do this with multiple subcribe of for loop also but then it won't gaurantee that it will happen sequentially and 
+    //after the subcribe is complete. Repeat will happen only once the subscribe is complete
     public static void main(String[] args) {
         getInteger()
                 .repeat(2)                  //After complete will repeat 2 times
