@@ -11,8 +11,8 @@ public class B_MonoJust {
         System.out.println(mono);   //If we don't subscribe to mono it will not execute
 
         SubscriberImpl subscriber = new SubscriberImpl();
-       mono.subscribe(subscriber);
-       subscriber.getSubscription().request(10);
+        mono.subscribe(subscriber);
+        subscriber.getSubscription().request(10);
 
 
        /*
