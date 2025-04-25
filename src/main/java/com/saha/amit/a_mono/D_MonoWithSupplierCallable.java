@@ -9,13 +9,14 @@ import java.util.function.Supplier;
 public class D_MonoWithSupplierCallable {
     public static void main(String[] args) {
 
-        /*Just should be called when we have the data ready and no waiting logic. In below case
-        * if we call getName inside Mono.just(), then even if no one subscribes to it, getName()
-        * will be called. In reactive programming programs should execute only when subscribed*/
+
+        /*
+        1> Just should be used when data is ready
+        2> When we call getName with Just getName will get called even without subscribing
+         */
         Mono<String> mono = Mono.just(getName());
 
-        /*When result is not ready we should not call just() instead should call fromSupplier which
-        takes supplier interface as parameter*/
+        //When data is not ready should use Supplier
         Mono<String> mono1 = Mono.fromSupplier(() -> getName());
         mono1.subscribe(
                 Util.onNext()

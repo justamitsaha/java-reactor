@@ -3,12 +3,10 @@ package com.saha.amit._CustomPublisherSubscriber.publisher;
 import com.github.javafaker.Faker;
 import org.reactivestreams.Subscriber;
 import org.reactivestreams.Subscription;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+
 
 public class SubscriptionImpl implements Subscription {
 
-    private static final Logger log = LoggerFactory.getLogger(SubscriptionImpl.class);
     private static final int MAX_ITEMS = 10;
     private final Faker faker;
     private final Subscriber<? super String> subscriber;
@@ -25,7 +23,7 @@ public class SubscriptionImpl implements Subscription {
         if(isCancelled){
             return;
         }
-        log.info("subscriber has requested {} items", requested);
+        System.out.println("subscriber has requested {} items "+ requested);
         if(requested > MAX_ITEMS){
             this.subscriber.onError(new RuntimeException("validation failed"));
             this.isCancelled = true;
@@ -36,7 +34,7 @@ public class SubscriptionImpl implements Subscription {
             this.subscriber.onNext(this.faker.internet().emailAddress());
         }
         if(count == MAX_ITEMS){
-            log.info("no more data to produce");
+            System.out.println("no more data to produce");
             this.subscriber.onComplete();
             this.isCancelled = true;
         }
@@ -44,7 +42,7 @@ public class SubscriptionImpl implements Subscription {
 
     @Override
     public void cancel() {
-        log.info("subscriber has cancelled");
+        System.out.println("subscriber has cancelled");
         this.isCancelled = true;
     }
 

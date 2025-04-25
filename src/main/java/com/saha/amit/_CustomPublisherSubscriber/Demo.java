@@ -2,8 +2,7 @@ package com.saha.amit._CustomPublisherSubscriber;
 
 import com.saha.amit._CustomPublisherSubscriber.publisher.PublisherImpl;
 import com.saha.amit._CustomPublisherSubscriber.subcriber.SubscriberImpl;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+
 
 /*
    1. publisher does not produce data unless subscriber requests for it.
@@ -14,6 +13,7 @@ import org.slf4j.LoggerFactory;
 
 
 import java.time.Duration;
+import java.util.logging.Logger;
 
 /*Creating a custom Publisher , Subscriber and Subscription Class
 Write logic in Subscription to emit item in request method
@@ -21,7 +21,7 @@ Passing the Subscription object to Publisher
 Passing the */
 public class Demo {
 
-    private static final Logger log = LoggerFactory.getLogger(Demo.class);
+
 
     public static void main(String[] args) throws InterruptedException {
         demo4();
@@ -41,14 +41,14 @@ public class Demo {
         var subscriber = new SubscriberImpl();
         publisher.subscribe(subscriber);
         subscriber.getSubscription().request(3);
-        log.info("Request complete 1");
+        System.out.println("Request complete 1");
         Thread.sleep(Duration.ofSeconds(2));
 
         subscriber.getSubscription().request(3);
-        log.info("Request complete 2");
+        System.out.println("Request complete 2");
         Thread.sleep(Duration.ofSeconds(2));
         subscriber.getSubscription().request(3);
-        log.info("Request complete 3");
+        System.out.println("Request complete 3");
         Thread.sleep(Duration.ofSeconds(2));
 
         subscriber.getSubscription().request(3);
