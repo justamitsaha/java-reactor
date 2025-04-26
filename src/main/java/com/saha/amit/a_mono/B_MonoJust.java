@@ -2,12 +2,15 @@ package com.saha.amit.a_mono;
 
 import com.saha.amit._CustomPublisherSubscriber.subcriber.SubscriberImpl;
 import com.saha.amit.util.Util;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import reactor.core.publisher.Mono;
 
 public class B_MonoJust {
+    private static final Logger log = LoggerFactory.getLogger(B_MonoJust.class);
     public static void main(String[] args) {
         var mono = Mono.just("LOLO");
-        System.out.println(mono);   //If we don't subscribe to mono it will not execute
+        log.info(String.valueOf(mono));   //Will not execute Mono
 
         /*
        We don't have to request the no of items with request(n) method
@@ -18,14 +21,14 @@ public class B_MonoJust {
         mono.subscribe(
                 System.out::println,        //Success,
                 System.out::println,        //failure and error
-                () -> System.out.println("completed") //Completed
+                () -> log.info("completed") //Completed
         );
 
 
         mono.subscribe(
-                value -> System.out.println("Received: "+ value),
+                value -> log.info("Received: "+ value),
                 error -> System.err.println("Error: "+ error),
-                () -> System.out.println("Completed"),
+                () -> log.info("Completed"),
                 subscription -> subscription.request(1)  // Manually request 1 item
         );
 

@@ -2,6 +2,8 @@ package com.saha.amit.util;
 
 import com.github.javafaker.Faker;
 import org.reactivestreams.Subscriber;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import reactor.core.publisher.Flux;
 
 import java.util.ArrayList;
@@ -11,16 +13,18 @@ import java.util.function.Consumer;
 
 public class Util {
 
+    private static final Logger log = LoggerFactory.getLogger(Util.class);
+
     public static Consumer<Object> onNext() {
-        return o -> System.out.println("Received : " + o);
+        return o -> log.info("Received : " + o);
     }
 
     public static Consumer<Throwable> onError() {
-        return e -> System.out.println("ERROR : " + e.getMessage());
+        return e -> log.info("ERROR : " + e.getMessage());
     }
 
     public static Runnable onComplete() {
-        return () -> System.out.println("Completed");
+        return () -> log.info("Completed");
     }
 
     public static final Faker FAKER = Faker.instance();

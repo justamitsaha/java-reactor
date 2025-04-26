@@ -1,6 +1,8 @@
 package com.saha.amit.a_mono;
 
 import com.saha.amit.util.Util;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import reactor.core.publisher.Mono;
 import reactor.core.scheduler.Schedulers;
 
@@ -13,8 +15,9 @@ expected for reactive programming i.e. it should not be blocking
 programing. We have to keep a sleep method at end to prevent current thread from exiting otherwise the current
 thread on which the program is running will exit without letting subscribe complete  */
 public class F_MonoFromSupplerRefactored {
+    private static final Logger log = LoggerFactory.getLogger(F_MonoFromSupplerRefactored.class);
     public static void main(String[] args) {
-        int i = 1;
+        int i = 2;
         switch (i) {
             case 1 -> {
                 getName();
@@ -39,9 +42,9 @@ public class F_MonoFromSupplerRefactored {
     }
 
     public static Mono<String> getName() {
-        System.out.println("Started getName");
+        log.info("Started getName");
         return Mono.fromSupplier(() -> {
-            System.out.println("Generating Name");
+            log.info("Generating Name");
             Util.sleepSeconds(2);
             return Util.faker().harryPotter().character();
         }).map(String::toUpperCase);

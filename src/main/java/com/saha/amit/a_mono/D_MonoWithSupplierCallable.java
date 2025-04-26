@@ -1,14 +1,16 @@
 package com.saha.amit.a_mono;
 
 import com.saha.amit.util.Util;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import reactor.core.publisher.Mono;
 
 import java.util.concurrent.Callable;
 import java.util.function.Supplier;
 
 public class D_MonoWithSupplierCallable {
+    private static final Logger log = LoggerFactory.getLogger(D_MonoWithSupplierCallable.class);
     public static void main(String[] args) {
-
 
         /*
         1> Just should be used when data is ready
@@ -17,7 +19,7 @@ public class D_MonoWithSupplierCallable {
         Mono<String> mono = Mono.just(getName());
 
         //When data is not ready should use Supplier
-        Mono<String> mono1 = Mono.fromSupplier(() -> getName());
+        Mono<String> mono1 = Mono.fromSupplier(D_MonoWithSupplierCallable::getName);
         mono1.subscribe(
                 Util.onNext()
         );
@@ -39,14 +41,14 @@ public class D_MonoWithSupplierCallable {
     public static String getName(){
         Util.sleepSeconds(2);
         String name = Util.faker().lordOfTheRings().character();
-        System.out.println("Generating name "+ name);
+        log.info("Generating name "+ name);
         return name;
     }
 
     public static String getName2() throws Exception{
         Util.sleepSeconds(2);
         String name = Util.faker().lordOfTheRings().character();
-        System.out.println("Generating name "+ name);
+        log.info("Generating name "+ name);
         return name;
     }
 }

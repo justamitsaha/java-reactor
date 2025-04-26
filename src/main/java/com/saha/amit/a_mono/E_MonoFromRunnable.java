@@ -2,12 +2,14 @@ package com.saha.amit.a_mono;
 
 import com.github.javafaker.Faker;
 import com.saha.amit.util.Util;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import reactor.core.publisher.Mono;
 
 public class E_MonoFromRunnable {
 
+    private static final Logger log = LoggerFactory.getLogger(E_MonoFromRunnable.class);
     public static void main(String[] args) {
-        getProductName(1).subscribe(System.out::println);
 
         getProductName(2).subscribe(
                 Util.onNext(),
@@ -28,6 +30,6 @@ public class E_MonoFromRunnable {
     }
 
     private static void notifyBusinessForMissingProduct(int productId) {
-        System.out.println("Log the missing product");
+        log.info("Log the missing product");
     }
 }

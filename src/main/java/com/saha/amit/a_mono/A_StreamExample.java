@@ -1,8 +1,12 @@
 package com.saha.amit.a_mono;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.util.stream.Stream;
 
 public class A_StreamExample {
+    private static final Logger log = LoggerFactory.getLogger(A_StreamExample.class);
     public static void main(String[] args) {
         Stream<Integer> stream = Stream.of(1,2,3);
         stream.map(s->{
@@ -12,10 +16,10 @@ public class A_StreamExample {
                 throw new RuntimeException(e);
             }
             //Map will not execute if we don't put any terminal operation
-            System.out.println("Hello " +s);
+           log.info("Hello " +s);
             return s *2;
-        }).forEach(System.out::println);
+        }).forEach(integer -> log.info(String.valueOf(integer)));
 
-        System.out.println("This ends here");
+        log.info("This ends here");
     }
 }
