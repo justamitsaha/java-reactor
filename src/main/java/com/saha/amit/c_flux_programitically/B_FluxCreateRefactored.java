@@ -33,11 +33,10 @@ class FluxSinkProducer implements Consumer<FluxSink<String>> {
         String name = "";
         int count = 0;
         do {
-            name = Util.faker().gameOfThrones().character();
+            name = Util.faker().gameOfThrones().quote();
             count++;
             this.fluxSink.next(count + " --> " + name);
-        } while (!name.equals("Muttering Bill") &&  count < 11);
+        } while (!name.equals("game of thrones") &&  count < 25);
         fluxSink.complete();
-
     }
 }

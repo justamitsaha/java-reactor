@@ -28,7 +28,6 @@ public class H_FluxMonoConversion {
                         e -> System.out.println(e),
                         () -> System.out.println()
                 );
-
     }
 }
 

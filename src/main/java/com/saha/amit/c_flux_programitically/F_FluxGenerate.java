@@ -10,7 +10,7 @@ If we try to emit more than once it will throw error.
 Also, we don't have to worry about cancelling subscription if we say take(2)
 subscription will be cancelled after 2
 */
-public class D_FluxGenerate {
+public class F_FluxGenerate {
     public static void main(String[] args) {
         Flux.generate(synchronousSink -> {
             String country = Util.faker().country().name();

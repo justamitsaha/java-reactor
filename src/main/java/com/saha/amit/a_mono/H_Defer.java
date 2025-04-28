@@ -13,8 +13,8 @@ public class H_Defer {
     private static final Logger log = LoggerFactory.getLogger(H_Defer.class);
     public static void main(String[] args) {
 
-        Mono.defer(H_Defer::createPublisher);
-//        Mono.defer(H_Defer::createPublisher).subscribe(Util.subscriber());
+//        Mono.defer(H_Defer::createPublisher);
+        Mono.defer(H_Defer::createPublisher).subscribe(Util.subscriber());
 //
 //        createPublisher().subscribe(integer -> System.out.println());
         Util.sleepSeconds(5);

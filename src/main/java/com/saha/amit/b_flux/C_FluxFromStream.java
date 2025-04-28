@@ -23,21 +23,13 @@ public class C_FluxFromStream {
 
         flux.subscribe(s -> System.out.println(s));             // Since this flux is from stream we can't subscribe again as stream is closed
 
-        Map<String, String> map = Map.of(
-                Util.faker().funnyName().name(), Util.faker().howIMetYourMother().catchPhrase(),
-                Util.faker().funnyName().name(), Util.faker().howIMetYourMother().catchPhrase(),
-                Util.faker().funnyName().name(), Util.faker().howIMetYourMother().catchPhrase()
-        );
+        List<Integer> numbers = List.of(1, 2, 3, 4);
 
-        /*Since Map doesn't implement iterable we have to create a Stream and then convert it in to a Flux
-        * */
-        Stream<Map.Entry<String, String>> stream1 = map.entrySet().stream();
-        Flux.fromStream(stream1).subscribe(
-                s -> System.out.println("stream1 "+s),
-                e -> System.out.println(e),
-                () -> System.out.println("Stream 2 completed")
-        );
+        // Use Supplier to create new stream for each subscriber
+        Flux<Integer> flux2 = Flux.fromStream(numbers::stream); // Method reference
 
-
+        // Now both work
+        flux2.subscribe(num -> System.out.println("Sub1: " + num));
+        flux2.subscribe(num -> System.out.println("Sub2: " + num));
     }
 }

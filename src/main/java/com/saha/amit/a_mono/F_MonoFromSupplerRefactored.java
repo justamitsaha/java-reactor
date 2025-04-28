@@ -17,7 +17,7 @@ thread on which the program is running will exit without letting subscribe compl
 public class F_MonoFromSupplerRefactored {
     private static final Logger log = LoggerFactory.getLogger(F_MonoFromSupplerRefactored.class);
     public static void main(String[] args) {
-        int i = 2;
+        int i = 3;
         switch (i) {
             case 1 -> {
                 getName();
