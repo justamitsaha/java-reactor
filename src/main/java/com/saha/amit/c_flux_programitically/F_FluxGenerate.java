@@ -12,15 +12,29 @@ subscription will be cancelled after 2
 */
 public class F_FluxGenerate {
     public static void main(String[] args) {
+        generateDemoTermination();
+    }
+
+    public static void generateDemo(){
         Flux.generate(synchronousSink -> {
-            String country = Util.faker().country().name();
-            synchronousSink.next(country);
-            // more than one call in generate won't work, it executes same value again and again
-            //synchronousSink.next(country);
-            if (country.equalsIgnoreCase("INDIA"))
-                synchronousSink.complete();
-        })
-        .take(2)
-        .subscribe(Util.onNext());
+                    String country = Util.faker().country().name();
+                    synchronousSink.next(country);
+                    // synchronousSink.next(country);       // Will throw IllegalStateException: More than one call to onNext
+                    System.out.println("emitting " + country);
+                    if (country.equalsIgnoreCase("INDIA"))
+                        synchronousSink.complete();
+                })
+                .take(2)
+                .subscribe(Util.onNext());
+    }
+
+    public static void generateDemoTermination(){
+        Flux.<String>generate(synchronousSink -> {
+                    String country = Util.faker().country().name();
+                    synchronousSink.next(country);
+                    System.out.println("emitting " + country);
+                })
+                .takeUntil(country -> country.equalsIgnoreCase("INDIA"))  // This will control
+                .subscribe(Util.onNext());
     }
 }
