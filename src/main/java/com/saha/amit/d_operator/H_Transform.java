@@ -22,7 +22,7 @@ public class H_Transform {
 
     public static Flux<Person> getPerson(){
         return Flux.range(1,10)
-                .map(integer -> new Person());
+                .map(integer -> new Person());  // Creates new person with Random age and name
     }
 
     public static Function<Flux<Person>, Flux<Person>> applyFilterMap(){
