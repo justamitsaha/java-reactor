@@ -12,6 +12,7 @@ public class ExternalServiceClient extends AbstractHttpClient {
                 .responseContent()
                 //Bytes changed to String
                 .asString()
+                .doOnNext(System.out::println)
                 .next();
     }
 

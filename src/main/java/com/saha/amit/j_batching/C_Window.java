@@ -13,11 +13,9 @@ public class C_Window {
     private static AtomicInteger atomicInteger = new AtomicInteger(1);
 
     public static void main(String[] args) {
-
         eventStream()
                 .window(3)                                  //We call using window which returns a flux
                 .flatMap(flux -> saveEvents(flux))              //Since we are getting flux we use flatMap and send to save events
-
                 .subscribe(Util.subscriber());
         Util.sleepSeconds(60);
     }

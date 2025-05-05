@@ -10,38 +10,43 @@ instead we want to do DB insertion in batches*/
 public class A_BatchWithBuffer {
 
     public static void main(String[] args) {
+//        demo1();
+//        demo2();
+//        demo3();
+        demo4();
+        Util.sleepSeconds(60);
 
-        System.out.println("Streaming in batch of 5");
-        eventStreamNormalSteadyLoad()
-                .buffer(5)  // List of 5 events returned
-                .subscribe(Util.subscriber());
-        Util.sleepSeconds(5);
-
-        System.out.println("Streaming based on time");
-        eventStreamNormalSteadyLoad()
-                .buffer(Duration.ofSeconds(1))  // process all items produced in 1 seconds
-                .subscribe(Util.subscriber());
-        Util.sleepSeconds(5);
-
-        System.out.println("Streaming based on time and batch");
-        eventStreamHighLoad()
-                    .bufferTimeout(5, Duration.ofSeconds(2))  //both time and batch mentioned which ever satisfies first
-                .subscribe(Util.subscriber());
-
-        Util.sleepSeconds(10);
     }
 
-    private static Flux<String> eventStreamNormalSteadyLoad() {
-        return Flux.interval(Duration.ofMillis(100))
-                .take(25)
-                //.take(3)  //If items are less than the buffer size it will not block but return what it has
-                .map(i -> "event" + i);
+    private static void demo1() {
+        eventStream()
+                .buffer() // int-max value or the source has to complete
+                .subscribe(Util.subscriber());
     }
 
-    private static Flux<String> eventStreamHighLoad() {
-        return Flux.interval(Duration.ofMillis(Util.faker().random().nextInt(10,50)))
-                .take(25)
-                .map(i -> "event" + i);
+    private static void demo2() {
+        eventStream()
+                .buffer(3) // every 3 items
+                .subscribe(Util.subscriber());
+    }
+
+    private static void demo3() {
+        eventStream()
+                .buffer(Duration.ofMillis(500)) // every 500ms
+                .subscribe(Util.subscriber());
+    }
+
+    private static void demo4() {
+        eventStream()
+                .bufferTimeout(3, Duration.ofSeconds(1)) // every 3 items or max 1 second
+                .subscribe(Util.subscriber());
+    }
+
+    private static Flux<String> eventStream() {
+        return Flux.interval(Duration.ofMillis(200))
+                //.take(10)
+                .concatWith(Flux.never())   //Makes it never ending stream
+                .map(i -> "event-" + (i + 1));
     }
 
 }

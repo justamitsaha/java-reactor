@@ -13,34 +13,24 @@ public class B_HotPublisherShared {
         //Hot publisher - If one subscriber has already data published, then any new subscriber will miss out on the previously published data
         //If there is no subscriber hot publisher will not emit as we can see once take ends subscription there is no emission
         Flux<String> movieStream = Flux.fromStream(B_HotPublisherShared::getMovie)
+                .doOnNext(s -> System.out.println("Generating "+ s))
                 .delayElements(Duration.ofSeconds(1))
-                .share();
-
+                .share();   // Converts to hot publisher
+        Util.sleepSeconds(2);
         movieStream
                 .take(3)
-                .subscribe(Util.subscriber("JHOLU")); // When this joins it starts publishing
-        Util.sleepSeconds(1);
+                .subscribe(Util.subscriber("SAM")); // When this joins it starts publishing
+        Util.sleepSeconds(2);
         movieStream
-                .take(3).
-                subscribe(Util.subscriber("BHOLU")); // This subscriber misses some data
-        Util.sleepSeconds(1);
-        movieStream
-                .take(3)
-                .subscribe(Util.subscriber("LOLU"));  // This subscriber misses some more data
+                .take(5).
+                subscribe(Util.subscriber("MIKE")); // This subscriber misses some data
         Util.sleepSeconds(10);
 
     }
 
     private static Stream<String> getMovie() {
         System.out.println("Generate movie stream");
-        return Stream.of(
-                "Scene 1",
-                "Scene 2",
-                "Scene 3",
-                "Scene 4",
-                "Scene 5",
-                "Scene 6",
-                "Scene 7"
-        );
+        return Stream.iterate(1,i -> i+1)
+                .map(integer -> "Scene "+integer);
     }
 }

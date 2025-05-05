@@ -4,7 +4,7 @@ import com.saha.amit.util.Util;
 import reactor.core.publisher.Flux;
 import reactor.core.scheduler.Schedulers;
 
-public class F_PublishOnSubscribeOn {
+public class H_PublishOnSubscribeOn {
     public static void main(String[] args) {
 
         Flux<Object> flux = Flux.create(fluxSink -> {
@@ -16,8 +16,7 @@ public class F_PublishOnSubscribeOn {
                 .doFirst(() -> printThreadName("doFirst-3"))
                 .doOnNext(i -> printThreadName("next " + i));
 
-        flux
-                .doFirst(() -> printThreadName("doFirst-2"))
+        flux.doFirst(() -> printThreadName("doFirst-2"))
                 .subscribeOn(Schedulers.boundedElastic())
                 .doFirst(() -> printThreadName("doFirst-1"))
                 .subscribe(s -> printThreadName("sub" + s));

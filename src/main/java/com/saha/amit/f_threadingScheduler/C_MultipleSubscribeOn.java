@@ -12,11 +12,11 @@ public class C_MultipleSubscribeOn {
     public static void main(String[] args) {
 
         Flux<Object> flux = Flux.create(fluxSink -> {
-                    printThreadName("create");                  //
+                    printThreadName("create");
                     fluxSink.next(1);
                 })
                 .subscribeOn(Schedulers.newParallel("Amit"))
-                .doOnNext(i -> printThreadName("next " + i));   //newParallel
+                .doOnNext(i -> printThreadName("next " + i));   //newParallel this will execute the flux
 
         flux
                 .doFirst(() -> printThreadName("doFirst2"))     //boundedElastic

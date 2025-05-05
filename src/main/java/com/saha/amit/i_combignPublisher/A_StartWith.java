@@ -13,22 +13,7 @@ so that subscribers can get initial value from cache
  */
 
 public class A_StartWith {
-    public static  List<String> list = new ArrayList<>();
-    public static Flux<String> generateName(String s) {
-        return Flux.generate(stringSynchronousSink -> {
-                    System.out.println(s +" - Generating name");
-                    Util.sleepSeconds(2);                                           //Here name generator takes time
-                    String name = Util.faker().funnyName().name();
-                    list.add(name);                                                     // Adds  to static cache
-                    stringSynchronousSink.next(name);
-                })
-                .cast(String.class)
-                .startWith(getNamesFromCache());                    // When it is taking time it can return item from cache
-    }
 
-    private static  Flux<String> getNamesFromCache() {
-        return Flux.fromIterable(list);
-    }
     public static void main(String[] args) {
         generateName("Amit")
                 .take(2)
@@ -42,6 +27,24 @@ public class A_StartWith {
                 .take(3)
                 .subscribe(Util.subscriber("Paul"));        //Paul gets 2 items from cache 1 from actual method, so we see "Generating name" in console
 
+    }
+
+    public static  List<String> list = new ArrayList<>();
+    public static Flux<String> generateName(String s) {
+        return Flux.generate(stringSynchronousSink -> {
+                    System.out.println(s +" - Generating name");
+                    Util.sleepSeconds(2);                                           //Here name generator takes time
+                    String name = Util.faker().funnyName().name();
+                    list.add(name);                                                     // Adds  to static cache
+                    stringSynchronousSink.next(name);
+                })
+                .cast(String.class)
+                .startWith("SAM", "MIKE")
+                .startWith(getNamesFromCache());                    // When it is taking time it can return item from cache
+    }
+
+    private static  Flux<String> getNamesFromCache() {
+        return Flux.fromIterable(list);
     }
 
 }

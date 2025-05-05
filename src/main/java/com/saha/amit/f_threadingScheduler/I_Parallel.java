@@ -6,7 +6,6 @@ import reactor.core.scheduler.Schedulers;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Vector;
 
 /*
 With parallel, we can make the publisher execute on different threads.
@@ -15,7 +14,7 @@ However, we mush take care of execution part here for example we are adding item
 Which is not thread safe as a result we might not get correct result
 With sequential() we can make is make it signe thread
  */
-public class G_Parallel {
+public class I_Parallel {
     public static void main(String[] args) {
         List<Integer> list = new ArrayList<>();
         //List<Integer> vector= new Vector<>();

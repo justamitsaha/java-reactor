@@ -13,29 +13,31 @@ This is done by zip once one element of all types are ready it emits
 public class D_Zip {
     public static void main(String[] args) {
         Flux.zip(
-                getBody(),
-                getTyres(),
-                getEngine()
-        ).subscribe(Util.subscriber());
-
+                        getBody(),
+                        getTyres(),
+                        getEngine()
+                )
+                //.map(objects -> new Car(objects.getT1(), objects.getT3(), objects.getT2()))
+                .subscribe(Util.subscriber());
         Util.sleepSeconds(8);
-
     }
 
-    public static Flux<String> getBody(){
-        return Flux.range(1,10)
+    public static Flux<String> getBody() {
+        return Flux.range(1, 10)
                 .delayElements(Duration.ofSeconds(1))
-                .map(integer -> "Body " +integer);
+                .map(integer -> "Body " + integer);
     }
 
-    public static Flux<String> getEngine(){
-        return Flux.range(1,2)
+    public static Flux<String> getEngine() {
+        return Flux.range(1, 2)
                 .delayElements(Duration.ofSeconds(3))
-                .map(integer -> "Engine " +integer);
+                .map(integer -> "Engine " + integer);
     }
 
-    public static Flux<String> getTyres(){
-        return Flux.range(1,100)
-                .map(integer -> "Tyres " +integer);
+    public static Flux<Integer> getTyres() {
+        return Flux.range(1, 100);
     }
+}
+
+record Car(String body, String engine, int tyres) {
 }

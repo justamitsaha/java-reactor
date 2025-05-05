@@ -9,7 +9,11 @@ import java.util.concurrent.atomic.AtomicInteger;
 public class _ColdPublisher {
 
     public static void main(String[] args) {
+        demo1();
 
+    }
+
+    public static void demo1(){
         AtomicInteger integer = new AtomicInteger(0);
 
         Flux<Integer> flux = Flux.create(atomicIntegerFluxSink -> {
@@ -21,21 +25,9 @@ public class _ColdPublisher {
         });
 
         //both flux receive different values
-        flux.subscribe(System.out::println);
-        flux.subscribe(System.out::println);
-
-
-        //Different values not cold
-        Flux<String> flux1 = Flux.create(stringFluxSink -> {
-            for (int i=0; i<3; i++){
-                stringFluxSink.next(Util.faker().funnyName().name());
-            }
-            stringFluxSink.complete();
-        });
-
-        flux1.delayElements(Duration.ofMillis(500)).subscribe(System.out::println);
-        flux1.delayElements(Duration.ofMillis(500)).subscribe(System.out::println);
-
-        Util.sleepSeconds(10);
+        flux.subscribe(Util.subscriber("sub1"));
+        flux.subscribe(Util.subscriber("sub2"));
     }
+
+
 }

@@ -13,11 +13,9 @@ public class A_ColdPublisher {
         Flux<String> movieStream = Flux.fromStream(A_ColdPublisher::getMovie)
                 .delayElements(Duration.ofSeconds(1));
 
-        movieStream.subscribe(Util.subscriber("JHOLU"));        // Each will get stream separately from beginning
+        movieStream.subscribe(Util.subscriber("SAM"));        // Each will get stream separately from beginning
         Util.sleepSeconds(2);
-        movieStream.subscribe(Util.subscriber("BHOLU"));        // Each will get stream separately from beginning
-        Util.sleepSeconds(2);
-        movieStream.subscribe(Util.subscriber("LOLU"));         // Each will get stream separately from beginning
+        movieStream.subscribe(Util.subscriber("MIKE"));        // Each will get stream separately from beginning
         Util.sleepSeconds(10);
     }
 
