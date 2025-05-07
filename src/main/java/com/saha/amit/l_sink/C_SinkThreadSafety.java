@@ -9,32 +9,54 @@ import java.util.List;
 import java.util.concurrent.CompletableFuture;
 
 public class C_SinkThreadSafety {
+
     public static void main(String[] args) {
-        Sinks.Many<Object> sink = Sinks.many().unicast().onBackpressureBuffer();
-        Flux<Object> flux = sink.asFlux();
-        List<Object> list = new ArrayList<>();
+
+        demo2();
+
+    }
+
+    private static void demo1(){
+        var sink = Sinks.many().unicast().onBackpressureBuffer();
+        var flux = sink.asFlux();
+
+        // arraylist is not thread safe.
+        // intentionally chosen for demo purposes.
+        var list = new ArrayList<>();
         flux.subscribe(list::add);
 
-        //Below is not thread safe in case of concurrency issues nothing is handled
         for (int i = 0; i < 1000; i++) {
-            final int count = i;
-            CompletableFuture.runAsync(()->{
-                sink.tryEmitNext(count);
+            var j = i;
+            CompletableFuture.runAsync(() -> {
+                sink.tryEmitNext(j);
             });
         }
+
         Util.sleepSeconds(2);
-        System.out.println("List size without handling concurrency --> "+list.size());
 
+        System.out.println("list size: {}"+ list.size());
+    }
 
-        list.clear();
+    private static void demo2(){
+        var sink = Sinks.many().unicast().onBackpressureBuffer();
+        var flux = sink.asFlux();
+
+        // arraylist is not thread safe.
+        // intentionally chosen for demo purposes.
+        var list = new ArrayList<>();
+        flux.subscribe(list::add);
 
         for (int i = 0; i < 1000; i++) {
-            final int count = i;                                                                                // Variable used in lambda expression should be final or effectively final
-            CompletableFuture.runAsync(()->{
-                sink.emitNext(count, (signalType, emitResult) -> true);         //return true tells that if you face any error retry
+            var j = i;
+            CompletableFuture.runAsync(() -> {
+                sink.emitNext(j, (signal, emitResult) -> {
+                    return Sinks.EmitResult.FAIL_NON_SERIALIZED.equals(emitResult);
+                });
             });
         }
+
         Util.sleepSeconds(2);
-        System.out.println("List size without handling concurrency --> "+list.size());  // We have to fetch size after sleep as we are retrying, so it may take some time
+
+        System.out.println("list size: {}"+ list.size());
     }
 }

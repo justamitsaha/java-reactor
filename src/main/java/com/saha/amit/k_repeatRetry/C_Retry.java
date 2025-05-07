@@ -2,24 +2,47 @@ package com.saha.amit.k_repeatRetry;
 
 import com.saha.amit.util.Util;
 import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
+import reactor.util.retry.Retry;
 
+import java.time.Duration;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class C_Retry {
-    static AtomicInteger atomicInteger = new AtomicInteger(1);
 
     public static void main(String[] args) {
-        getInteger()
+        //demo1();
+        //demo2();
+        Util.sleepSeconds(10);
+    }
+
+    private static void demo1() {
+        getCountryName()
                 .retry(2)
                 .subscribe(Util.subscriber());
     }
 
-    private static Flux<Integer> getInteger() {
-        return Flux.range(1, 3)
-                .doOnSubscribe(s -> System.out.println("Subscribed 1"))
-                .doOnComplete(() -> System.out.println("Completed 2"))
-                .map(i -> i / Util.faker().random().nextInt(0, 5) > 3 ? 0 : 1)
-                .doOnError(err -> System.out.println(err));
+    private static void demo2() {
+        getCountryName()
+                .retryWhen(
+                        Retry.fixedDelay(2, Duration.ofSeconds(1))
+                                .filter(ex -> RuntimeException.class.equals(ex.getClass()))
+                                .onRetryExhaustedThrow((spec, signal) -> signal.failure())
+                )
+                .subscribe(Util.subscriber());
+    }
 
+
+
+    private static Mono<String> getCountryName() {
+        AtomicInteger atomicInteger = new AtomicInteger(0);
+        return Mono.fromSupplier(() -> {
+                    if (atomicInteger.incrementAndGet() < 3) {
+                        throw new RuntimeException("oops");
+                    }
+                    return Util.faker().country().name();
+                })
+                .doOnError(err -> System.err.println("ERROR: {}" + err.getMessage()))
+                .doOnSubscribe(s -> System.out.println("subscribing"));
     }
 }
